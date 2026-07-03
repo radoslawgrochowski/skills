@@ -23,7 +23,7 @@ let
   # slashes and consecutive `//`).
   splitPattern = pat: builtins.filter (s: builtins.isString s && s != "") (builtins.split "/" pat);
 
-  # True iff `node` is a directory whose children include `SKILL.md`.
+  # True if `node` is a directory whose children include `SKILL.md`.
   hasSkillMd = node: node.type == "directory" && builtins.hasAttr "SKILL.md" node.children;
 
   # Names of `node`'s children that are directories, lexical order.

@@ -2,10 +2,10 @@
   pkgs,
   walk,
   glob,
+  skills,
 }:
 
 let
-  skills = import ./skills.nix;
 
   # Resolve one `skills.nix` entry into a list of skill records.
   # Each record: { src, name, owner, repo, path }.
