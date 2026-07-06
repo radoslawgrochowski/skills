@@ -18,7 +18,8 @@
         pkgs = import nixpkgs { inherit system; };
         install = import ./install {
           inherit pkgs;
-          skills = import ./skills.nix;
+          externalSkills = import ./external-skills.nix;
+          localSkillsRoot = ./skills;
         };
       in
       {

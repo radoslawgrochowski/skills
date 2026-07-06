@@ -1,0 +1,29 @@
+{
+  "skill_name": "jira-cli",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you look up ABC-123 and tell me what the ticket is about?",
+      "expected_output": "Uses jira issue view ABC-123 --plain and summarizes the readable Jira issue without expanding raw custom fields unless needed.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Please inspect https://jira.example.com/browse/ABC-456 and help me implement it. Make sure you don't miss the AC.",
+      "expected_output": "Extracts ABC-456, shows jira issue view ABC-456 --plain, then pipes jira issue view ABC-456 --raw into the bundled relevant-field helper to surface acceptance criteria or related fields from the configured Jira field catalog.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I'm fixing BUG-789. Pull the Jira details and tell me the definition of done and requirements before touching code.",
+      "expected_output": "Uses read-only Jira commands and expands relevant configured custom fields such as Definition of Done, Requirements, Scope, User Story, Deliverables, or Success Criteria without hardcoded customfield IDs.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Move ABC-123 to In Progress and add a comment that I started it.",
+      "expected_output": "Does not immediately mutate Jira. Checks the relevant jira issue subcommand help and asks for confirmation before running move or comment commands.",
+      "files": []
+    }
+  ]
+}

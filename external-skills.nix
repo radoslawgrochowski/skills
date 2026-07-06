@@ -1,4 +1,6 @@
-# Declarative list of skill sources to install via `nix run .#install`.
+# Declarative list of external skill sources to install via `nix run .#install`.
+# Local first-party skills live under `skills/<name>/SKILL.md` and are
+# auto-discovered by the installer.
 #
 # Each entry fetches a GitHub repository with `fetchFromGitHub` (pin both
 # `rev` and `hash`; bump with `:UpdateNixFetchgit` in neovim) and resolves

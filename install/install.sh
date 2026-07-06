@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Install skills declared in skills.nix into a destination directory.
+# Install local and external skills into a destination directory.
 #
-# Expects SKILLS_LIST_JSON to point at the JSON manifest produced by
-# resolve.nix (one record per skill: { src, name, owner, repo, path }).
+# Expects SKILLS_LIST_JSON to point at the JSON manifest produced by resolve.nix
+# (one record per skill: { src, name, source, path }).
 
 set -euo pipefail
 
@@ -18,7 +18,7 @@ while [ $# -gt 0 ]; do
     -h|--help)
       echo "Usage: install [--yes|-y] [--dry-run] [--dest PATH]"
       echo
-      echo "Copies skills declared in skills.nix into a destination directory"
+      echo "Copies local and external skills into a destination directory"
       echo "after a preview and confirmation prompt."
       echo
       echo "Flags:"
@@ -32,11 +32,9 @@ done
 
 : "${SKILLS_LIST_JSON:?SKILLS_LIST_JSON must point at the skills manifest}"
 
-mapfile -t names  < <(jq -r '.[].name'  "$SKILLS_LIST_JSON")
-mapfile -t owners < <(jq -r '.[].owner' "$SKILLS_LIST_JSON")
-mapfile -t repos  < <(jq -r '.[].repo'  "$SKILLS_LIST_JSON")
-mapfile -t paths  < <(jq -r '.[].path'  "$SKILLS_LIST_JSON")
-mapfile -t srcs   < <(jq -r '.[].src'   "$SKILLS_LIST_JSON")
+mapfile -t names   < <(jq -r '.[].name'   "$SKILLS_LIST_JSON")
+mapfile -t sources < <(jq -r '.[].source' "$SKILLS_LIST_JSON")
+mapfile -t srcs    < <(jq -r '.[].src'    "$SKILLS_LIST_JSON")
 
 count=${#names[@]}
 if [ "$count" -eq 0 ]; then
@@ -54,7 +52,7 @@ printf '%-20s %-50s %s\n' "SKILL" "SOURCE" "DEST"
 for i in "${!names[@]}"; do
   printf '%-20s %-50s %s\n' \
     "${names[i]}" \
-    "${owners[i]}/${repos[i]}:${paths[i]}" \
+    "${sources[i]}" \
     "$display_dest/${names[i]}"
 done
 echo

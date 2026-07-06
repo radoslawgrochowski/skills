@@ -1,7 +1,8 @@
-# Builds the `install` app and the `checks` output from a skill list.
+# Builds the `install` app and the `checks` output from local and external skill sources.
 {
   pkgs,
-  skills,
+  externalSkills,
+  localSkillsRoot,
 }:
 
 let
@@ -13,7 +14,8 @@ let
       pkgs
       walk
       glob
-      skills
+      externalSkills
+      localSkillsRoot
       ;
   };
   checks = import ./checks.nix { inherit pkgs walk glob; };
