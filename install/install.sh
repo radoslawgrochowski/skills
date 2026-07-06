@@ -77,7 +77,10 @@ if [ "$assume_yes" -eq 0 ]; then
 fi
 
 for i in "${!names[@]}"; do
-  mkdir -p "$dest/${names[i]}"
-  cp -aL "${srcs[i]}/." "$dest/${names[i]}/"
-  echo "+ ${names[i]}  $dest/${names[i]}"
+  target="$dest/${names[i]}"
+  mkdir -p "$target"
+  chmod -R u+w "$target"
+  cp -aL "${srcs[i]}/." "$target/"
+  chmod -R u+w "$target"
+  echo "+ ${names[i]}  $target"
 done
