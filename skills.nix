@@ -26,6 +26,14 @@
     paths = [
       "skills/productivity/grill-me"
       "skills/productivity/grilling"
+      "skills/productivity/writing-great-skills"
     ];
+  }
+  {
+    owner = "anthropics";
+    repo = "skills";
+    rev = "9d2f1ae187231d8199c64b5b762e1bdf2244733d";
+    hash = "sha256-U7Nt1xrFOSOEm4vuWmy4pVsEyvv+Hj4sv8yXOofmwAw=";
+    paths = [ "skills/skill-creator" ];
   }
 ]
