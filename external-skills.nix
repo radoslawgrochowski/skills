@@ -28,6 +28,7 @@
     paths = [
       "skills/productivity/grill-me"
       "skills/productivity/grilling"
+      "skills/productivity/handoff"
       "skills/productivity/writing-great-skills"
     ];
   }

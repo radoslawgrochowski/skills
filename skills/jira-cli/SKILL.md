@@ -1,6 +1,6 @@
 ---
 name: jira-cli
-description: Jira CLI issue lookup and implementation context. Use when the user mentions Jira, gives a ticket key like ABC-123, shares a Jira issue URL, or asks to implement/fix/build from a ticket; CLI-only, expands relevant configured custom fields for implementation work.
+description: Jira CLI issue lookup and implementation context. Use when the user mentions Jira, gives a ticket key like ABC-123, shares a Jira issue URL, or asks to implement/fix/build/plan/verify from a ticket; CLI-only, expands configured custom fields such as acceptance criteria, definition of done, requirements, scope, and success criteria.
 ---
 
 # Jira CLI
