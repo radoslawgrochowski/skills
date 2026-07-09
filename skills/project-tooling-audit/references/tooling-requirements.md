@@ -415,6 +415,23 @@ Status guidance:
 
 Use the status vocabulary for the requirement and put the recommendation strength in notes.
 
+### Testing Library Selectors
+
+Applicability: React projects using `@testing-library/react` or other Testing Library packages for component/unit tests.
+
+Expected evidence:
+
+- `testing-library-selector` dependency and usage, or an equivalent typed selector helper, instead of inline string queries duplicated across tests.
+- Selectors are co-located, reusable, and typed so that refactors update queries in one place and reduce fragile test selectors.
+- Tests avoid raw `getBy*` / `queryBy*` string literals scattered through individual test files when a shared selector would be clearer.
+
+Status guidance:
+
+- `present`: `testing-library-selector` or an equivalent reusable typed selector layer is used consistently.
+- `partial`: some tests use reusable selectors but many still rely on inline duplicated string queries.
+- `missing`: Testing Library is used but selectors are entirely inline with no reusable selector layer.
+- `not applicable`: no Testing Library usage detected.
+
 ### Web Performance And Browser Support
 
 Applicability: browser webapps, frontend libraries, design systems, or packages shipped to browsers.

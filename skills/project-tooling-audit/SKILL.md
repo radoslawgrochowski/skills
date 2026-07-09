@@ -115,7 +115,7 @@ Search for these when relevant:
 - Project metadata: `README*`, `LICENSE*`, `COPYING*`, `CHANGELOG*`, root `package.json` `license` field.
 - JS/TS package tooling: `package.json`, `engines`, `devEngines`, `packageManager`, `pnpm` settings, workspace files, lockfiles, `tsconfig*.json`, `eslint.config.*`, `.eslintrc*`, `prettier.config.*`, `.prettierrc*`.
 - Quality tools: `renovate.json`, `.github/renovate.json`, `knip.json`, `knip.ts`, `zizmor`, `actionlint`, `lint-staged`, `lefthook`, `husky`.
-- Tests: `jest.config.*`, `vitest.config.*`, setup files, deterministic environment setup, `jest-fail-on-console`, console spies, `@testing-library/*`, Playwright config.
+- Tests: `jest.config.*`, `vitest.config.*`, setup files, deterministic environment setup, `jest-fail-on-console`, console spies, `@testing-library/*`, `testing-library-selector`, Playwright config.
 - Nix: `flake.nix`, `flake.lock`, `treefmt.nix`, `treefmt.toml`, `nixfmt`, `nixfmt-rfc-style`, `nixfmt-tree`, `deadnix`, `statix`, `cachix`, `nix develop`, `nix flake check`.
 - Web quality: `lighthouse`, `bundlesize`, `size-limit`, `webpack-bundle-analyzer`, `rollup-plugin-visualizer`, `browserslist`.
 - Release automation: `.changeset`, `changeset`, `semantic-release`, release workflows, `release-please`, publish scripts, Docker/image release workflows, changelogs, version files.
