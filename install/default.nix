@@ -3,6 +3,7 @@
   pkgs,
   externalSkills,
   localSkillsRoot,
+  reviewCommandSource,
 }:
 
 let
@@ -18,16 +19,26 @@ let
       localSkillsRoot
       ;
   };
-  checks = import ./checks.nix { inherit pkgs walk glob; };
+  checks = import ./checks.nix {
+    inherit
+      pkgs
+      walk
+      glob
+      reviewCommandSource
+      ;
+  };
 
   installScript = pkgs.writeShellApplication {
     name = "install";
     runtimeInputs = [
       pkgs.jq
       pkgs.bash
+      pkgs.coreutils
     ];
     text = ''
-      SKILLS_LIST_JSON="${resolved.skillsListJson}" exec bash ${./install.sh} "$@"
+      SKILLS_LIST_JSON="${resolved.skillsListJson}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+        exec bash ${./install.sh} "$@"
     '';
   };
 in

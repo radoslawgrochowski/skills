@@ -20,6 +20,7 @@
           inherit pkgs;
           externalSkills = import ./external-skills.nix;
           localSkillsRoot = ./skills;
+          reviewCommandSource = ./opencode/commands/review.md;
         };
       in
       {

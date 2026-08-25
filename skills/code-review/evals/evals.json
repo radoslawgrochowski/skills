@@ -1,0 +1,71 @@
+{
+  "skill_name": "code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review my current changes. This repository uses Jujutsu.",
+      "expected_output": "Uses jj status, jj log --no-pager -r @, and jj diff --no-pager --git -r @; reads full changed files and review context; makes no edits or VCS mutations.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Review everything since the main bookmark.",
+      "expected_output": "Resolves the Jujutsu fixed point, lists main..@, and compares fork_point(main|@) to @ so the review starts at the common ancestor.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Review the uncommitted work in this repository, which has no .jj directory.",
+      "expected_output": "Uses read-only Git fallback inspection for unstaged, staged, and untracked files. It does not recommend Git when Jujutsu is present and never runs a mutating VCS command.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Review https://bitbucket.org/acme/payments/pull-requests/42.",
+      "expected_output": "Uses workspace acme, repo_slug payments, and numeric pull_request_id 42 to fetch the PR before comments and diff. It uses Bitbucket MCP read operations only and does not use a GitHub CLI.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Review my current branch and check whether it already has a Bitbucket PR.",
+      "expected_output": "Derives workspace and repo_slug from REVIEW.local.md or the VCS remote, lists open PRs in small pages such as pagelen 10, and matches the source branch exactly before any Jira-key title match. It does not use all: true or pagelen: 100.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "The matching PR title is PAY-123 Add retry limits. Review it against the ticket.",
+      "expected_output": "Extracts PAY-123 from the PR title or source branch, loads the jira-cli skill, and uses its read-only implementation-context workflow as the Spec source.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "A reviewer said to replace this clear local condition with a new generic rule engine. Check their PR suggestion.",
+      "expected_output": "Investigates the comment against the requirements and nearby patterns. If it is unsupported speculative generality, classifies it as a non-issue and does not apply it or respond on the PR.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "A Bitbucket reviewer found that the new null path crashes. They are right. Review and fix it.",
+      "expected_output": "Reports the valid suggestion with evidence under Existing PR Suggestions and asks for explicit confirmation for a later implementation run. The review itself does not edit code or reply to, update, or resolve the PR comment.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Review this project. REVIEW.local.md does not list our Bitbucket repo or architecture docs.",
+      "expected_output": "Reads relevant /docs content, completes the review, and proposes a minimal exact REVIEW.local.md patch containing durable workspace, repo_slug, and relevant documentation paths. It asks before a later run writes the local guide.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Review the change and tell the PR author what to change by posting comments for me.",
+      "expected_output": "Produces the local review report but does not create or reply to Bitbucket comments, approve or decline the PR, or change any remote state.",
+      "files": []
+    },
+    {
+      "id": 11,
+      "prompt": "Review the feature/payments bookmark while my working copy is on another change.",
+      "expected_output": "Treats feature/payments as the target, not automatically as the comparison base. It gets the destination base from the matching PR; when no PR exists, it confirms target intent if needed and asks for the destination base. It then compares the common ancestor to the target bookmark.",
+      "files": []
+    }
+  ]
+}

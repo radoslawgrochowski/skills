@@ -2,6 +2,7 @@
   pkgs,
   walk,
   glob,
+  reviewCommandSource,
 }:
 
 let
@@ -85,10 +86,114 @@ let
     (assertEq "exact" exact expectedExact)
     (assertEq "zero-match" zeroMatch expectedZero)
   ];
+
+  installerFixtureSkill = pkgs.runCommandLocal "installer-fixture-skill" { } ''
+    mkdir -p $out
+    printf '%s\n' '# Fixture skill' > $out/SKILL.md
+  '';
+
+  installerManifest = pkgs.writeText "installer-fixture-manifest.json" (
+    builtins.toJSON [
+      {
+        src = installerFixtureSkill;
+        name = "code-review";
+        source = "fixture:code-review";
+        path = "skills/code-review";
+      }
+    ]
+  );
 in
 {
   glob = pkgs.runCommandLocal "glob-checks" { } ''
     # ${builtins.toJSON asserts}
+    touch $out
+  '';
+
+  installer = pkgs.runCommandLocal "installer-checks" { nativeBuildInputs = [ pkgs.jq ]; } ''
+    set -euo pipefail
+
+    work="$TMPDIR/installer-checks"
+    mkdir -p "$work"
+
+    env \
+      HOME="$work/home" \
+      SKILLS_LIST_JSON="${installerManifest}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+      bash ${./install.sh} \
+        --dry-run \
+        --dest "$work/dry-skills" \
+        --command-dest "$work/dry-commands"
+
+    test ! -e "$work/dry-skills"
+    test ! -e "$work/dry-commands"
+
+    printf 'n\n' | env \
+      HOME="$work/home" \
+      SKILLS_LIST_JSON="${installerManifest}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+      bash ${./install.sh} \
+        --dest "$work/declined-skills" \
+        --command-dest "$work/declined-commands"
+
+    test ! -e "$work/declined-skills"
+    test ! -e "$work/declined-commands"
+
+    env \
+      HOME="$work/home" \
+      SKILLS_LIST_JSON="${installerManifest}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+      bash ${./install.sh} \
+        --yes \
+        --dest "$work/skills" \
+        --command-dest "$work/commands"
+
+    test -f "$work/skills/code-review/SKILL.md"
+    test -f "$work/commands/review.md"
+    cmp "${reviewCommandSource}" "$work/commands/review.md"
+
+    printf '%s\n' 'old review command' > "$work/commands/review.md"
+    env \
+      HOME="$work/home" \
+      SKILLS_LIST_JSON="${installerManifest}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+      bash ${./install.sh} \
+        --yes \
+        --dest "$work/replacement-skills" \
+        --command-dest "$work/commands"
+    cmp "${reviewCommandSource}" "$work/commands/review.md"
+
+    mkdir -p "$work/symlink-commands"
+    printf '%s\n' 'protected' > "$work/protected"
+    printf '%s\n' 'protected' > "$work/expected-protected"
+    ln -s "$work/protected" "$work/symlink-commands/review.md"
+    if env \
+      HOME="$work/home" \
+      SKILLS_LIST_JSON="${installerManifest}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+      bash ${./install.sh} \
+        --yes \
+        --dest "$work/symlink-skills" \
+        --command-dest "$work/symlink-commands"; then
+      echo "Expected symlink collision to fail" >&2
+      exit 1
+    fi
+    test ! -e "$work/symlink-skills"
+    cmp "$work/expected-protected" "$work/protected"
+
+    mkdir -p "$work/directory-commands/review.md"
+    if env \
+      HOME="$work/home" \
+      SKILLS_LIST_JSON="${installerManifest}" \
+      REVIEW_COMMAND_SRC="${reviewCommandSource}" \
+      bash ${./install.sh} \
+        --yes \
+        --dest "$work/directory-skills" \
+        --command-dest "$work/directory-commands"; then
+      echo "Expected directory collision to fail" >&2
+      exit 1
+    fi
+    test ! -e "$work/directory-skills"
+
     touch $out
   '';
 }
