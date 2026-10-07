@@ -23,20 +23,12 @@
   {
     owner = "mattpocock";
     repo = "skills";
-    rev = "16a2a5cd00b4416f673f4ff38c7971a04dd708e7";
-    hash = "sha256-enlQpsahLZZhRfqPoaT0/92aiSZSmX+Xvs/1jXYgCcQ=";
+    rev = "6fd947921b935b7e1e69293a200400f0fdd5c15f";
+    hash = "sha256-c36sg+3AyW+iZ730QKXqwejpFOL+2neWlZhL5Jc7Rcs=";
     paths = [
       "skills/productivity/grill-me"
       "skills/productivity/grilling"
-      "skills/productivity/handoff"
-      "skills/productivity/writing-great-skills"
+      "skills/productivity/writing-for-agents"
     ];
-  }
-  {
-    owner = "anthropics";
-    repo = "skills";
-    rev = "9d2f1ae187231d8199c64b5b762e1bdf2244733d";
-    hash = "sha256-U7Nt1xrFOSOEm4vuWmy4pVsEyvv+Hj4sv8yXOofmwAw=";
-    paths = [ "skills/skill-creator" ];
   }
 ]
